@@ -128,6 +128,7 @@ namespace GenAlg
             {
                 FileInfo[] cFiles = new DirectoryInfo(@"C:\ATSP\").GetFiles();
 
+                //FileInfo x = cFiles[1];
                 foreach (FileInfo x in cFiles)
                 {
                     arr = Parsing(x.FullName, sw);

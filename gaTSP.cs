@@ -26,51 +26,58 @@ namespace GenAlg
 
         //	}
 
-        public gaTSP(int[][] OriginalAdaptation, int nu) 
+        public gaTSP(int[][] OriginalAdaptation, int nu)
         {
-		    this.L = OriginalAdaptation.Length;
-		    this.AdaptationMatrix = new int[L][];
-		    this.nu = nu;
-		    this.Parents = new int[this.nu][];
-		    //this.Children = new int[this.nu, this.L];
-		    this.Mutants = new int[this.nu][];
-		    this.DeltaMu = 0.0;
+            this.L = OriginalAdaptation.Length;
+            this.AdaptationMatrix = new int[L][];
+            this.nu = nu;
+            this.Parents = new int[this.nu][];
+            //this.Children = new int[this.nu, this.L];
+            this.Mutants = new int[this.nu][];
+            this.DeltaMu = 0.0;
             this.rand = new Random();
-		
-		
-		    if(OriginalAdaptation.Length == OriginalAdaptation[0].Length) {
-			    this.AdaptationMatrix = OriginalAdaptation;
-		    }
-		    else {
-			    if(OriginalAdaptation[0].Length == 2) {
-				    for(int i = 0; i < this.L; i++) {
-					    for(int j = 0; j < this.L; j++) {
-						    //if(i == j) {
-							    //this.AdaptationMatrix[i][j] = 0;
-							    //continue;
-						    //}
-						    if(j < i) {
-							    this.AdaptationMatrix[i][j] = this.AdaptationMatrix[j][i];
-							    continue;
-						    }
-						    double a = OriginalAdaptation[i][0] - OriginalAdaptation[j][0];
-						    double b = OriginalAdaptation[i][1] - OriginalAdaptation[j][1];
-						    a = Math.Abs(a);
-						    b = Math.Abs(b);
-						    a *= a;
-						    b *= b;
-						    double c = a + b;
-						    c = Math.Sqrt(c);
-						    this.AdaptationMatrix[i][j] = (int)c;
-					    }
-				    }
-			    }
-			    else {
-				    Console.WriteLine("Объект создан неверно.\n"
-						    + "Матрица приспособленности должна быть квадратной.");
-			    }
-				
-		    }
+
+
+            if (OriginalAdaptation.Length == OriginalAdaptation[0].Length)
+            {
+                this.AdaptationMatrix = OriginalAdaptation;
+            }
+            else
+            {
+                if (OriginalAdaptation[0].Length == 2)
+                {
+                    for (int i = 0; i < this.L; i++)
+                    {
+                        for (int j = 0; j < this.L; j++)
+                        {
+                            //if(i == j) {
+                            //this.AdaptationMatrix[i][j] = 0;
+                            //continue;
+                            //}
+                            if (j < i)
+                            {
+                                this.AdaptationMatrix[i][j] = this.AdaptationMatrix[j][i];
+                                continue;
+                            }
+                            double a = OriginalAdaptation[i][0] - OriginalAdaptation[j][0];
+                            double b = OriginalAdaptation[i][1] - OriginalAdaptation[j][1];
+                            a = Math.Abs(a);
+                            b = Math.Abs(b);
+                            a *= a;
+                            b *= b;
+                            double c = a + b;
+                            c = Math.Sqrt(c);
+                            this.AdaptationMatrix[i][j] = (int)c;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Объект создан неверно.\n"
+                            + "Матрица приспособленности должна быть квадратной.");
+                }
+
+            }
 
             for (int i = 0; i < L; i++)
                 if (AdaptationMatrix[i][i] == 0) AdaptationMatrix[i][i] = Int32.MaxValue;
@@ -78,7 +85,7 @@ namespace GenAlg
             for (int i = 0; i < nu; i++)
                 this.Parents[i] = greedCode(L); //мб стоит вынести отдельную функцию создания первых родителей
 
-	    }
+        }
 
         private int[] greedCode(int L)
         {
@@ -109,7 +116,7 @@ namespace GenAlg
                     for (int k = 0; k < j; k++) ;
 
                     //if (AdaptationMatrix[arr[i - 1]][temp] < AdaptationMatrix[arr[i - 1]][smth])
-                    
+
                 }
                 best = arr[i - 1];
                 for (int j = 0; j < MAXVAR; j++)
@@ -142,20 +149,22 @@ namespace GenAlg
             return arr;
         }
 
-        private int[][] summArr(int[][] arr1, int[][] arr2) {
-
-		int j = 0;
-		int D_arr = arr1.Length + arr2.Length;
-		int[][] resArr = new int[D_arr][];//[L];
-		for(int i = 0; i < arr1.Length; i++) {
-			resArr[i] = arr1[i];
-		}
-		for(int i = arr1.Length; i < D_arr; i++) {
-			resArr[i] = arr2[j];
-			j++;
-		}
-		return resArr;
-	}
+        private int[][] summArr(int[][] arr1, int[][] arr2)
+        {
+            int j = 0;
+            int D_arr = arr1.Length + arr2.Length;
+            int[][] resArr = new int[D_arr][];//[L];
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                resArr[i] = arr1[i];
+            }
+            for (int i = arr1.Length; i < D_arr; i++)
+            {
+                resArr[i] = arr2[j];
+                j++;
+            }
+            return resArr;
+        }
 
         private double deltaMu(int[][] mp, int[][] adaptationMatrix2)
         {
@@ -261,6 +270,7 @@ namespace GenAlg
             int[] C = new int[Sp1.Length];
             int k = 0;
             int[] Sc = new int[Sp1.Length];
+            int i = 0;
             int j;
             bool End;
             do
@@ -273,7 +283,7 @@ namespace GenAlg
                 while (C[j] == 0)
                 {
                     C[j] = k;
-                    int i = 0;
+                    i = 0;
                     while (Sp1[i] != Sp2[j])
                         i++;
                     j = i;
@@ -325,45 +335,50 @@ namespace GenAlg
             return R;
         }
 
-        private int[][] lineRangSel(int[][] reprod, int nu) {
-	    double np = 2 - rand.NextDouble();
-	    double nm = 2 - np;
-	    reprod = notVozr(reprod);
-	    int[][] R = new int[nu][];
-	    int k = 0;
-	    for (int i = 0; i < reprod.Length; i++)
-	        if (k < nu) 
-	            if ((1 - rand.NextDouble()) < (nm + (np - nm) * (i) / (reprod.Length - 1))) {
-	                R[k] = reprod[i];
-	                k++;
-	            }
-	    return R;
-	}
+        private int[][] lineRangSel(int[][] reprod, int nu)
+        {
+            double np = 2 - rand.NextDouble();
+            double nm = 2 - np;
+            reprod = notVozr(reprod);
+            int[][] R = new int[nu][];
+            int k = 0;
+            for (int i = 0; i < reprod.Length; i++)
+                if (k < nu)
+                    if ((1 - rand.NextDouble()) < (nm + (np - nm) * (i) / (reprod.Length - 1)))
+                    {
+                        R[k] = reprod[i];
+                        k++;
+                    }
+            return R;
+        }
 
-        private int[][] betaTournSel(int[][] reprod, int nu) {//оператор бета селекции
-	    int[][] R = new int[nu][];
-	    int r;
-	    int r1;
-	    int r2;
-	    int r3;
-	    for (int i = 0; i < nu; i++) {
-	        r1 = (int) Math.Floor(rand.NextDouble() * reprod.Length);
-	        do {
-	            r2 = (int) Math.Floor(rand.NextDouble() * reprod.Length);
-	            r3 = (int) Math.Floor(rand.NextDouble() * reprod.Length);
-	        } while (r2 == r1 || r3 == r1 || r2 == r3);
-	        if (Mu(AdaptationMatrix, reprod[r1]) > Mu(AdaptationMatrix, reprod[r2]))
-	            if (Mu(AdaptationMatrix, reprod[r2]) > Mu(AdaptationMatrix, reprod[r3]))
-	                r = r3;
-	            else r = r2;
-	        else
-	            if (Mu(AdaptationMatrix, reprod[r1]) > Mu(AdaptationMatrix, reprod[r3]))
-	                r = r3;
-	            else r = r1;
-	        R[i] = reprod[r];
-	    }
-	    return R;
-	}
+        private int[][] betaTournSel(int[][] reprod, int nu)
+        {//оператор бета селекции
+            int[][] R = new int[nu][];
+            int r;
+            int r1;
+            int r2;
+            int r3;
+            for (int i = 0; i < nu; i++)
+            {
+                r1 = (int)Math.Floor(rand.NextDouble() * reprod.Length);
+                do
+                {
+                    r2 = (int)Math.Floor(rand.NextDouble() * reprod.Length);
+                    r3 = (int)Math.Floor(rand.NextDouble() * reprod.Length);
+                } while (r2 == r1 || r3 == r1 || r2 == r3);
+                if (Mu(AdaptationMatrix, reprod[r1]) > Mu(AdaptationMatrix, reprod[r2]))
+                    if (Mu(AdaptationMatrix, reprod[r2]) > Mu(AdaptationMatrix, reprod[r3]))
+                        r = r3;
+                    else r = r2;
+                else
+                    if (Mu(AdaptationMatrix, reprod[r1]) > Mu(AdaptationMatrix, reprod[r3]))
+                        r = r3;
+                    else r = r1;
+                R[i] = reprod[r];
+            }
+            return R;
+        }
 
         /*	void realize(bool st, bool sel, bool mut1) {
                 double[][] matrix = {{0.00, 3.16, 13.60, 8.49, 1.00, 13.00, 5.83, 13.04, 13.00, 2.00, 12.53, 12.37, 13.34, 13.15, 5.10}, {3.16, 0.00, 13.89, 5.83, 2.24, 12.37, 2.83, 12.17, 13.60, 5.10, 13.45, 11.00, 13.42, 13.00, 8.00}, {13.60, 13.89, 0.00, 12.21, 13.93, 4.00, 13.45, 5.00, 1.41, 13.15, 2.83, 7.07, 1.00, 2.00, 12.04}, {8.49, 5.83, 12.21, 0.00, 7.81, 9.22, 3.16, 8.60, 12.53, 10.00, 13.00, 6.71, 11.40, 10.63, 12.08}, {1.00, 2.24, 13.93, 7.81, 0.00, 13.04, 5.00, 13.00, 13.42, 3.00, 13.04, 12.17, 13.60, 13.34, 6.08}, {13.00, 12.37, 4.00, 9.22, 13.04, 0.00, 11.18, 1.00, 5.10, 13.15, 6.32, 3.16, 3.00, 2.00, 13.00}, {5.83, 2.83, 13.45, 3.16, 5.00, 11.18, 0.00, 10.77, 13.45, 7.62, 13.60, 9.22, 12.81, 12.21, 10.20}, {13.04, 12.17, 5.00, 8.60, 13.00, 1.00, 10.77, 0.00, 6.08, 13.34, 7.28, 2.24, 4.00, 3.00, 13.42}, {13.00, 13.60, 1.41, 12.53, 13.42, 5.10, 13.45, 6.08, 0.00, 12.37, 1.41, 8.00, 2.24, 3.16, 11.00}, {2.00, 5.10, 13.15, 10.00, 3.00, 13.15, 7.62, 13.34, 12.37, 0.00, 11.70, 13.00, 13.04, 13.00, 3.16}, {12.53, 13.45, 2.83, 13.00, 13.04, 6.32, 13.60, 7.28, 1.41, 11.70, 0.00, 9.06, 3.61, 4.47, 10.05}, {12.37, 11.00, 7.07, 6.71, 12.17, 3.16, 9.22, 2.24, 8.00, 13.00, 9.06, 0.00, 6.08, 5.10, 13.60}, {13.34, 13.42, 1.00, 11.40, 13.60, 3.00, 12.81, 4.00, 2.24, 13.04, 3.61, 6.08, 0.00, 1.00, 12.17}, {13.15, 13.00, 2.00, 10.63, 13.34, 2.00, 12.21, 3.00, 3.16, 13.00, 4.47, 5.10, 1.00, 0.00, 12.37}, {5.10, 8.00, 12.04, 12.08, 6.08, 13.00, 10.20, 13.42, 11.00, 3.16, 10.05, 13.60, 12.17, 12.37, 0.00}};
@@ -417,50 +432,102 @@ namespace GenAlg
                 String t1 = P[P.Length - 1] + ", с приспособленностью " + Mu(matrix, P[P.Length - 1]);
             }*/
 
-        public void crossover(int CrossingType) {
-		
-		DeltaMu = deltaMu(Parents, AdaptationMatrix);
-		this.Children = new int[this.nu][];//[this.L];
+        private int findNameMaxAllel(int[] arr)
+        {
+            int max = 0;
+            int imax = 0;
 
-		for(int i = 0; i < nu;) {
-			int n1 = (int) Math.Floor(rand.NextDouble() * nu);
-			int n2;
-			
-			do {
-				n2 = (int) Math.Floor(rand.NextDouble() * nu);
-			} while(n1 == n2);
-			
-			int N1 = Mu(AdaptationMatrix, Parents[n1]);
-			int N2 = Mu(AdaptationMatrix, Parents[n2]);
-			
-			switch(CrossingType) {
-			case 1: 
-				if(associatePlus(N1, N2, DeltaMu)) {
-					Children[i] = crossCycle(Parents[n1], Parents[n2]);
-					i++;
-				}
-				break;
-			case 2:
-				if(associateMinus(N1, N2, DeltaMu)) {
-					Children[i] = crossCycle(Parents[n1], Parents[n2]);
-					i++;
-				}
-				break;
-			}
-		}
-		
-		/*int k = 0;
-		for(int i = 0; i < nu; i++) {
-			for(int j = 0; j < nu; j++) {
-				if(associatePlus(Mu(AdaptationMatrix, Parents[i]), Mu(AdaptationMatrix, Parents[j]), DeltaMu)) {
-	                Children[k] = crossCycle(Parents[i], Parents[j]);
-	                k++;
-	                Children[k] = crossCycle(Parents[j], Parents[i]);
-	                k++;
-	            };
-			}
-		}*/ //вроде нормально, НО надо выбрать как рожать потомков
-	}
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                if (AdaptationMatrix[arr[i]][arr[i + 1]] > max)
+                {
+                    max = AdaptationMatrix[arr[i]][arr[i + 1]];
+                    imax = i + 1;
+                }
+            }
+            return imax;
+        }
+
+        public void crossover(int CrossingType)
+        {
+
+            if (Parents[0] == null)
+            {
+                int i;
+            }
+
+            DeltaMu = deltaMu(Parents, AdaptationMatrix);
+            this.Children = new int[this.nu][];//[this.L];
+
+            for (int i = 0; i < nu; )
+            {
+                int n1 = (int)Math.Floor(rand.NextDouble() * nu);
+                int n2;
+
+                do
+                {
+                    n2 = (int)Math.Floor(rand.NextDouble() * nu);
+                } while (n1 == n2);
+
+                int N1 = Mu(AdaptationMatrix, Parents[n1]);
+                int N2 = Mu(AdaptationMatrix, Parents[n2]);
+
+                int[] child = new int[L];
+
+                switch (CrossingType)
+                {
+                    case 1:
+                        if (associatePlus(N1, N2, DeltaMu))
+                        {
+                            child = crossCycle(Parents[n1], Parents[n2]);
+                        }
+                        break;
+                    case 2:
+                        if (associateMinus(N1, N2, DeltaMu))
+                        {
+                            child = crossCycle(Parents[n1], Parents[n2]);
+                        }
+                        break;
+                }
+
+                int[] anotherChild = new int[L];
+                int k = 0;
+                for (int j = findNameMaxAllel(child); j < child.Length; j++)
+                {
+                    anotherChild[k++] = child[j];
+                }
+                for (int j = 0; j < findNameMaxAllel(child); j++)
+                {
+                    anotherChild[k++] = child[j];
+                }
+                if (Mu(AdaptationMatrix, anotherChild) < Mu(AdaptationMatrix, child))
+                {
+                    Children[i] = anotherChild;
+                }
+                else
+                {
+                    Children[i] = child;
+                }
+                if (Children[i][0] == 0 && Children[i][1] == 0)
+                {
+                    i--;
+                }
+                i++;
+            }
+
+            /*int k = 0;
+            for(int i = 0; i < nu; i++) {
+                for(int j = 0; j < nu; j++) {
+                    if(associatePlus(Mu(AdaptationMatrix, Parents[i]), Mu(AdaptationMatrix, Parents[j]), DeltaMu)) {
+                        Children[k] = crossCycle(Parents[i], Parents[j]);
+                        k++;
+                        Children[k] = crossCycle(Parents[j], Parents[i]);
+                        k++;
+                    };
+                }
+            }*/
+            //вроде нормально, НО надо выбрать как рожать потомков
+        }
 
         public void mutation(int MutationType)
         {
@@ -515,25 +582,27 @@ namespace GenAlg
                     break;
                 case 2: R = betaTournSel(R, nu);
                     break;
- 
+
             }
 
             Parents = R;
         }
 
-        public String takeAnswer() {
-		if(min == 0) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-		if(min > Mu(AdaptationMatrix, Parents[Parents.Length - 1])) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-		if(max < Mu(AdaptationMatrix, Parents[Parents.Length - 1])) max = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-		Parents = notVozr(Parents);
-		String answer = "The best way:";
-		foreach(int y in Parents[Parents.Length - 1]) {
-			answer += " " + y;
-		}
-		answer += ". Mu = " + Mu(AdaptationMatrix, Parents[Parents.Length - 1]) + ".\n";
-		sum = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-		return answer;
-	}
+        public String takeAnswer()
+        {
+            if (min == 0) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
+            if (min > Mu(AdaptationMatrix, Parents[Parents.Length - 1])) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
+            if (max < Mu(AdaptationMatrix, Parents[Parents.Length - 1])) max = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
+            Parents = notVozr(Parents);
+            String answer = "The best way:";
+            foreach (int y in Parents[Parents.Length - 1])
+            {
+                answer += " " + y;
+            }
+            answer += ". Mu = " + Mu(AdaptationMatrix, Parents[Parents.Length - 1]) + ".\n";
+            sum = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
+            return answer;
+        }
     }
 
 }
