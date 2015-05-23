@@ -95,8 +95,8 @@ namespace GenAlg
                     alg.mutation(mut2);
                     alg.selection(sel);
                 }
-                alg.takeAnswer();
-                Console.Write( (i + 1) + " ");
+                sw.WriteLine(alg.takeAnswer());
+                Console.Write((i + 1) + " ");
                 sum += alg.sum;
                 min = gaTSP.min;
                 max = gaTSP.max;
@@ -128,16 +128,16 @@ namespace GenAlg
             {
                 FileInfo[] cFiles = new DirectoryInfo(@"C:\ATSP\").GetFiles();
 
-                //FileInfo x = cFiles[1];
-                foreach (FileInfo x in cFiles)
+                FileInfo x = cFiles[1];
+                //foreach (FileInfo x in cFiles)
                 {
                     arr = Parsing(x.FullName, sw);
                     sw.WriteLine("Generations: " + gen + "\nPopulation: " + pop);
-                    Run(retries, sw, gen, pop, arr, 1, 1, 1);
-                    Run(retries, sw, gen, pop, arr, 1, 1, 2);
-                    Run(retries, sw, gen, pop, arr, 1, 1, 1, 2);
-                    Run(retries, sw, gen, pop, arr, 1, 2, 1);
-                    Run(retries, sw, gen, pop, arr, 1, 2, 2);
+                    //Run(retries, sw, gen, pop, arr, 1, 1, 1);
+                    //Run(retries, sw, gen, pop, arr, 1, 1, 2);
+                    //Run(retries, sw, gen, pop, arr, 1, 1, 1, 2);
+                    //Run(retries, sw, gen, pop, arr, 1, 2, 1);
+                    //Run(retries, sw, gen, pop, arr, 1, 2, 2);
                     Run(retries, sw, gen, pop, arr, 1, 2, 1, 2);
                 }
 
@@ -182,7 +182,7 @@ namespace GenAlg
                 Run("ftv170", retries, sw, gen, pop, pd.ftv170, 1, 2, 2);
                 Run("ftv170", retries, sw, gen, pop, pd.ftv170, 1, 2, 1, 2);
                 */
-                
+
                 /*
                 sw.WriteLineAsync(DateTime.Now.ToString());
                 

@@ -319,19 +319,24 @@ namespace GenAlg
         {//расстановка в порядке монотонного невозрастания
             int[][] R = Reprod;
             for (int j = 0; j < R.Length - 1; j++)
-                for (int i = 0; i < R.Length - 1 - j; i++)
+            {
+                for (int i = 0; i < R.Length - 1; i++)
                 {
-                    int[] m1 = R[i];
-                    int[] m2 = R[i + 1];
+                    //int[] m1 = R[i];
+                    //int[] m2 = R[i + 1];
                     //	            if (i == 8)
                     //	                d = true;
-                    if (Mu(AdaptationMatrix, m1) > Mu(AdaptationMatrix, m2))
+                    if (Mu(AdaptationMatrix, R[i]) > Mu(AdaptationMatrix, R[i + 1]))
                     {
-                        R[i] = m2;
-                        R[i + 1] = m1;
+                        int[] temp = R[i];
+                        R[i] = R[i + 1];
+                        R[i + 1] = temp;
+                        //R[i] = m2;
+                        //R[i + 1] = m1;
                         //	                d = true;
                     }
                 }
+            }
             return R;
         }
 
@@ -450,12 +455,6 @@ namespace GenAlg
 
         public void crossover(int CrossingType)
         {
-
-            if (Parents[0] == null)
-            {
-                int i;
-            }
-
             DeltaMu = deltaMu(Parents, AdaptationMatrix);
             this.Children = new int[this.nu][];//[this.L];
 
@@ -508,11 +507,10 @@ namespace GenAlg
                 {
                     Children[i] = child;
                 }
-                if (Children[i][0] == 0 && Children[i][1] == 0)
+                if (Children[i][0] != Children[i][1])
                 {
-                    i--;
+                    i++;
                 }
-                i++;
             }
 
             /*int k = 0;
@@ -590,17 +588,20 @@ namespace GenAlg
 
         public String takeAnswer()
         {
-            if (min == 0) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-            if (min > Mu(AdaptationMatrix, Parents[Parents.Length - 1])) min = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
-            if (max < Mu(AdaptationMatrix, Parents[Parents.Length - 1])) max = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
             Parents = notVozr(Parents);
-            String answer = "The best way:";
-            foreach (int y in Parents[Parents.Length - 1])
+            if (min == 0) min = Mu(AdaptationMatrix, Parents[0]);
+            foreach (int[] x in Parents)
+            {
+                if (min > Mu(AdaptationMatrix, x)) min = Mu(AdaptationMatrix, x);
+                if (max < Mu(AdaptationMatrix, x)) max = Mu(AdaptationMatrix, x);
+            }
+            String answer = "";
+            foreach (int y in Parents[0])//Parents.Length - 1])
             {
                 answer += " " + y;
             }
-            answer += ". Mu = " + Mu(AdaptationMatrix, Parents[Parents.Length - 1]) + ".\n";
-            sum = Mu(AdaptationMatrix, Parents[Parents.Length - 1]);
+            answer += " | Mu " + Mu(AdaptationMatrix, Parents[0]) + ".\n";
+            sum = Mu(AdaptationMatrix, Parents[0]);
             return answer;
         }
     }
