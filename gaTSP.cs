@@ -299,6 +299,53 @@ namespace GenAlg
             return Sc;
         }
 
+        private int[] crossArithmetic(int[] mom, int[] dad)
+        {
+            int[] child = new int[mom.Length];
+            double[] embryo = new double[mom.Length];
+            double[] embryo_sort = new double[mom.Length];
+            int[] embryo_num = new int[mom.Length];
+            double alpha = rand.NextDouble();
+
+            for (int i = 0; i < embryo.Length; i++)
+            {
+                embryo[i] = alpha * mom[i] + (1.0 - alpha) * dad[i];
+                embryo_sort[i] = embryo[i];
+            }
+            for (int j = 0; j < embryo_sort.Length; j++)
+            {
+                for (int i = 0; i < embryo_sort.Length - 1; i++)
+                {
+                    if (embryo_sort[i] > embryo_sort[i + 1])
+                    {
+                        double temp = embryo_sort[i];
+                        embryo_sort[i] = embryo_sort[i + 1];
+                        embryo_sort[i + 1] = temp;
+                    }
+                }
+                embryo_num[j] = j;
+            }
+            for (int i = 0; i < child.Length; i++)
+            {
+                for (int j = 0; j < embryo.Length; j++)
+                {
+                    if (embryo[i] == embryo_sort[j])
+                    {
+                        child[i] = embryo_num[j];
+                    }
+                }
+            }
+
+            return child;
+        }
+
+        int[] crossBinary(int[] mom, int[] dad)
+        {
+            int[] child = new int[mom.Length];
+
+            return child;
+        }
+
         private bool associatePlus(double mu1, double mu2, double DeltaMu)
         {//мю1 и мю2 - ф-ии приспособленности //ассоциативное положительное скрещивание
             if (Math.Abs(mu1 - mu2) <= DeltaMu * 2)
@@ -482,9 +529,9 @@ namespace GenAlg
                         }
                         break;
                     case 2:
-                        if (associateMinus(N1, N2, DeltaMu))
+                        if (associatePlus(N1, N2, DeltaMu))
                         {
-                            child = crossCycle(Parents[n1], Parents[n2]);
+                            child = crossArithmetic(Parents[n1], Parents[n2]);
                         }
                         break;
                 }

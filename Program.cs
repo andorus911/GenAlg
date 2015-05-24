@@ -87,6 +87,7 @@ namespace GenAlg
             sw.WriteLine();
             for (int i = 0; i < times; i++)
             {
+                sw.WriteLine(i + " time");
                 alg = new gaTSP(arr, p);
                 for (int j = 0; j < g; j++)
                 {
@@ -94,7 +95,9 @@ namespace GenAlg
                     alg.mutation(mut1);
                     alg.mutation(mut2);
                     alg.selection(sel);
+                    //sw.WriteLine("g" + j + alg.takeAnswer());
                 }
+                //sw.WriteLine();
                 sw.WriteLine(alg.takeAnswer());
                 Console.Write((i + 1) + " ");
                 sum += alg.sum;
@@ -128,17 +131,17 @@ namespace GenAlg
             {
                 FileInfo[] cFiles = new DirectoryInfo(@"C:\ATSP\").GetFiles();
 
-                FileInfo x = cFiles[1];
+                FileInfo x = cFiles[0];
                 //foreach (FileInfo x in cFiles)
                 {
                     arr = Parsing(x.FullName, sw);
-                    sw.WriteLine("Generations: " + gen + "\nPopulation: " + pop);
                     //Run(retries, sw, gen, pop, arr, 1, 1, 1);
                     //Run(retries, sw, gen, pop, arr, 1, 1, 2);
                     //Run(retries, sw, gen, pop, arr, 1, 1, 1, 2);
                     //Run(retries, sw, gen, pop, arr, 1, 2, 1);
                     //Run(retries, sw, gen, pop, arr, 1, 2, 2);
                     Run(retries, sw, gen, pop, arr, 1, 2, 1, 2);
+                    Run(retries, sw, gen, pop, arr, 2, 2, 1, 2);
                 }
 
                 /*
