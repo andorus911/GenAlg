@@ -87,7 +87,7 @@ namespace GenAlg
             sw.WriteLine();
             for (int i = 0; i < times; i++)
             {
-                sw.WriteLine(i + " time");
+                //sw.WriteLine(i + " time");
                 alg = new gaTSP(arr, p);
                 for (int j = 0; j < g; j++)
                 {
@@ -98,7 +98,8 @@ namespace GenAlg
                     //sw.WriteLine("g" + j + alg.takeAnswer());
                 }
                 //sw.WriteLine();
-                sw.WriteLine(alg.takeAnswer());
+                //sw.WriteLine(alg.takeAnswer());
+                alg.takeAnswer();
                 Console.Write((i + 1) + " ");
                 sum += alg.sum;
                 min = gaTSP.min;
@@ -115,25 +116,30 @@ namespace GenAlg
             Console.WriteLine("min= " + min + " sre= " + sum / times + " max= " + max + "\n");
             Console.WriteLine();
             sw.WriteLine();
-
+            sw.WriteLine("------------------------------");
+            sw.WriteLine();
         }
 
         static void Main(string[] args)
         {
             problem_data pd = new problem_data();
             int[][] arr;
-            int retries = 50;
+            int retries = 30;
             int gen = 500;
             int pop = 70;
+
+            FileInfo[] cFiles1 = new DirectoryInfo(@"" + Directory.GetCurrentDirectory() + @"\\..\\..\\TSPLIB\\").GetFiles();
 
             string str = "c:/Users/Admin/Documents/GA experiments/" + DateTime.Now.ToString("dd.MM.yy HH-mm-ss") + ".txt";
             using (StreamWriter sw = new StreamWriter(str))
             {
                 FileInfo[] cFiles = new DirectoryInfo(@"C:\ATSP\").GetFiles();
 
-                FileInfo x = cFiles[0];
+                //FileInfo x = cFiles[1];
                 //foreach (FileInfo x in cFiles)
+                for(int i = 12; i < cFiles.Length; i++)
                 {
+                    FileInfo x = cFiles[i];
                     arr = Parsing(x.FullName, sw);
                     //Run(retries, sw, gen, pop, arr, 1, 1, 1);
                     //Run(retries, sw, gen, pop, arr, 1, 1, 2);
@@ -141,7 +147,20 @@ namespace GenAlg
                     //Run(retries, sw, gen, pop, arr, 1, 2, 1);
                     //Run(retries, sw, gen, pop, arr, 1, 2, 2);
                     Run(retries, sw, gen, pop, arr, 1, 2, 1, 2);
+
+                    //Run(retries, sw, gen, pop, arr, 2, 1, 1);
+                    //Run(retries, sw, gen, pop, arr, 2, 1, 2);
+                    Run(retries, sw, gen, pop, arr, 2, 1, 1, 2);
+                    //Run(retries, sw, gen, pop, arr, 2, 2, 1);
+                    //Run(retries, sw, gen, pop, arr, 2, 2, 2);
                     Run(retries, sw, gen, pop, arr, 2, 2, 1, 2);
+
+                    //Run(retries, sw, gen, pop, arr, 3, 1, 1);
+                    //Run(retries, sw, gen, pop, arr, 3, 1, 2);
+                    Run(retries, sw, gen, pop, arr, 3, 1, 1, 2);
+                    //Run(retries, sw, gen, pop, arr, 3, 2, 1);
+                    //Run(retries, sw, gen, pop, arr, 3, 2, 2);
+                    Run(retries, sw, gen, pop, arr, 3, 2, 1, 2);
                 }
 
                 /*

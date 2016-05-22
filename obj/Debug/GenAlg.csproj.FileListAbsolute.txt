@@ -1,6 +1,12 @@
 C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.exe.config
-C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.csprojResolveAssemblyReference.cache
 C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.exe
 C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.pdb
 C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.exe
 C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.pdb
+C:\Users\Admin\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.csprojResolveAssemblyReference.cache
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.exe.config
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.exe
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.pdb
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.exe
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\bin\Debug\GenAlg.pdb
+C:\Users\andorus911\Documents\GitHub\GenAlg\GenAlg\obj\Debug\GenAlg.csprojResolveAssemblyReference.cache

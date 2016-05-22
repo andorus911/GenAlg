@@ -89,6 +89,69 @@ namespace GenAlg
 
         private int[] greedCode(int L)
         {
+            int[] arr = new int[L];
+            int[] cities = new int[L];
+            for (int i = 0; i < L; i++)
+            {
+                cities[i] = i;
+            }
+            arr[0] = (int)Math.Floor(rand.NextDouble() * L);
+            cities[arr[0]] = -1;
+            int MAXVAR = (int)Math.Floor(L * 0.1) + 1; // 10%
+            
+            for (int i = 1; i < arr.Length; i++)
+            {
+                int[] vars = new int[MAXVAR];
+                vars = fillMinusOne(vars);
+                for (int j = 0; j < vars.Length; j++)
+                {
+                    for (int k = 0; k < cities.Length; k++)
+                    {
+                        if (!contain(vars, k) && cities[k] > -1)
+                        {
+                            vars[j] = k;
+                            break;
+                        }
+                    }
+
+                    for (int k = 0; k < cities.Length; k++)
+                    {
+                        if (!contain(vars, k) && cities[k] > -1)
+                        {
+                            if (AdaptationMatrix[arr[i - 1]][k] < AdaptationMatrix[arr[i - 1]][vars[j]])
+                            {
+                                vars[j] = k;
+                            }
+                        }
+                    }
+                }
+                do {
+                    arr[i] = vars[(int)Math.Floor(rand.NextDouble() * vars.Length)];
+                } while(arr[i] < 0);
+                cities[arr[i]] = -1;
+            }
+
+            return arr;
+        }
+
+        private int[] fillMinusOne(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = -1;
+            }
+            return arr;
+        }
+
+        private bool contain(int[] arr, int a)
+        {
+            foreach (int x in arr)
+                if (x == a) return true;
+            return false;
+        }
+
+        private int[] greedRandCode(int L)
+        {
             int MAXVAR = (int)Math.Floor(L * 0.1) + 1; // 10%
             int[] vars = new int[MAXVAR];
             int[] arr = new int[L];
@@ -201,6 +264,7 @@ namespace GenAlg
             int mu = 0;
             for (int i = 0; i < arr.Length - 1; i++)
                 mu += adaptationMatrix2[arr[i]][arr[i + 1]];
+            mu += adaptationMatrix2[arr[arr.Length - 1]][arr[0]];
             return mu;
         }
 
@@ -342,7 +406,42 @@ namespace GenAlg
         int[] crossBinary(int[] mom, int[] dad)
         {
             int[] child = new int[mom.Length];
-
+            int[] embryo_num = new int[mom.Length];
+            for (int i = 0; i < child.Length; i++)
+            {
+                if (rand.NextDouble() <= 0.5)
+                {
+                    child[i] = mom[i];
+                }
+                else
+                {
+                    child[i] = dad[i];
+                }
+                embryo_num[i] = i;
+            }
+            for (int i = 0; i < child.Length; i++)
+            {
+                embryo_num[child[i]] = -1;
+            }
+            for (int i = 0; i < child.Length - 1; i++)
+            {
+                for (int j = i + 1; j < child.Length; j++)
+                {
+                    if (child[i] == child[j])
+                    {
+                        for (int k = 0; k < child.Length; k++)
+                        {
+                            if (embryo_num[k] != -1)
+                            {
+                                child[j] = embryo_num[k];
+                                embryo_num[k] = -1;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
             return child;
         }
 
@@ -355,7 +454,7 @@ namespace GenAlg
         }
 
         private bool associateMinus(double mu1, double mu2, double DeltaMu)
-        {//мю1 и мю2 - ф-ии приспособленности //ассоциативное положительное скрещивание
+        {//мю1 и мю2 - ф-ии приспособленности //ассоциативное отрицательное скрещивание
             if (Math.Abs(mu1 - mu2) >= DeltaMu / 2)
                 return true;
             else
@@ -405,7 +504,7 @@ namespace GenAlg
         }
 
         private int[][] betaTournSel(int[][] reprod, int nu)
-        {//оператор бета селекции
+        {
             int[][] R = new int[nu][];
             int r;
             int r1;
@@ -534,6 +633,12 @@ namespace GenAlg
                             child = crossArithmetic(Parents[n1], Parents[n2]);
                         }
                         break;
+                    case 3:
+                        if (associatePlus(N1, N2, DeltaMu))
+                        {
+                            child = crossBinary(Parents[n1], Parents[n2]);
+                        }
+                        break;
                 }
 
                 int[] anotherChild = new int[L];
@@ -582,13 +687,15 @@ namespace GenAlg
                 case 1:
                     for (int i = 0; i < nu; i++)
                         if (rand.NextDouble() <= 0.1)
-                            Mutants[i] = mutOneDot(child, L);
+                            for (int j = 0; j < L / 17; j++)
+                                Mutants[i] = mutOneDot(child, L);
                         else Mutants[i] = Children[(int)Math.Floor(rand.NextDouble() * Children.Length)];
                     break;
                 case 2:
                     for (int i = 0; i < nu; i++)
                         if (rand.NextDouble() <= 0.1)
-                            Mutants[i] = mutTwoDot(child, L);
+                            for (int j = 0; j < L / 17; j++)
+                                Mutants[i] = mutTwoDot(child, L);
                         else Mutants[i] = Children[(int)Math.Floor(rand.NextDouble() * Children.Length)];
                     break;
                 default:
